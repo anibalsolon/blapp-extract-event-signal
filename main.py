@@ -23,3 +23,5 @@ signal, _ = compute_regressor(
 
 fmri_selected_data = fmri_data[..., signal.flatten() > 0]
 nib.Nifti1Image(fmri_selected_data, fmri.affine).to_filename('output/bold.nii.gz')
+
+event_onsets.to_csv('output/events.tsv', sep='\t', index=False, header=True)
