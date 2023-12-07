@@ -4,8 +4,18 @@
 
 set -xe
 
+export $(cat .env | xargs)
+DEFAULT_BRANCH=$(git remote show origin | grep 'HEAD branch' | cut -d' ' -f5)
+DOCKER_TAG=$(git branch --show-current)
+if [ "$DEFAULT_BRANCH" = "$BRANCH" ]; then
+    DOCKER_TAG=latest
+fi
+
 bold=$(jq -r .bold config.json)
 bold_events=$(jq -r .bold_events config.json)
 events=$(jq -r .events config.json)
 
-python main.py $bold $bold_events "$events"
+mkdir -p output
+
+time singularity run -e docker://$DOCKER_IMAGE:$DOCKER_TAG \
+    python main.py $bold $bold_events "$events"

@@ -5,17 +5,11 @@ import pandas as pd
 
 from nilearn.glm.first_level import compute_regressor
 
-import matplotlib.pyplot as plt
-
 fmri = nib.load(sys.argv[1])
-events_data = pd.read_csv(sys.argv[2], sep="\t")
-events = sys.argv[3].split(',')
-
 fmri_data = fmri.get_fdata()
-
+events_data = pd.read_csv(sys.argv[2], sep="\t")
+events = list(map(lambda e: e.strip(), sys.argv[3].split(',')))
 frame_times = np.linspace(0, fmri_data.shape[-1], fmri_data.shape[-1])
-
-print(events)
 
 event_onsets = events_data[events_data['trial_type'].isin(events)]
 
