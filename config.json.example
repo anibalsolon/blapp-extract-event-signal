@@ -1,0 +1,5 @@
+{
+    "bold": "sub-001_bold.nii.gz",
+    "bold_events": "sub-001_events.tsv",
+    "events": "AudVid1200"
+}
